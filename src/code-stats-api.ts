@@ -17,7 +17,7 @@ export class CodeStatsAPI {
 
         this.axios = axios.default.create({
             baseURL: this.UPDATE_URL,
-            timeout: 1000,
+            timeout: 10000,
             headers: {
                 "X-API-Token": this.API_KEY,
                 "Content-Type": "application/json"
