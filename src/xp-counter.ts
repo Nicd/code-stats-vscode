@@ -26,14 +26,7 @@ export class XpCounter {
         );
         */
 
-        let config: WorkspaceConfiguration = workspace.getConfiguration("codestats");
-        if (!config) {
-            return;
-        }
-
-        // tslint:disable-next-line:typedef
-        let apiKey = config.get("apikey");
-        this.api = new CodeStatsAPI(`${apiKey}`);
+        this.initAPI();
 
         if (!this.statusBarItem) {
             this.statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
@@ -41,6 +34,7 @@ export class XpCounter {
 
         let subscriptions: Disposable[] = [];
         workspace.onDidChangeTextDocument(this.onTextDocumentChanged, this, subscriptions);
+        workspace.onDidChangeConfiguration(this.initAPI, this, subscriptions);
         this.combinedDisposable = Disposable.from(...subscriptions);
     }
 
@@ -117,4 +111,15 @@ export class XpCounter {
         return true;
     }
 
+    private initAPI() {
+        let config: WorkspaceConfiguration = workspace.getConfiguration("codestats");
+        if (!config) {
+            return;
+        }
+
+        const apiKey: string = config.get("apikey");
+        const apiURL: string = config.get("apiurl");
+        console.log("code-stats-vscode setting up with API URL", apiURL, "and key", apiKey);
+        this.api = new CodeStatsAPI(apiKey, apiURL);
+    }
 }

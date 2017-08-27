@@ -31,6 +31,11 @@
                     "type": "string",
                     "default": "",
                     "description": "Code::Stats API key for this machine."
+                },
+                "codestats.apiurl": {
+                    "type": "string",
+                    "default": "https://codestats.net/api/my/pulses",
+                    "description": "Code::Stats API URL. Only change if you know what you are doing!"
                 }
             }
         },

@@ -6,11 +6,12 @@ import * as axios from "axios";
 export class CodeStatsAPI {
     private API_KEY = null;
     private UPDATE_URL = "https://codestats.net/api/my/pulses";
-    private axios;
+    private axios = null;
 
-    constructor(apiKey: string) {
+    constructor(apiKey: string, apiURL: string) {
         this.API_KEY = apiKey;
-        if (this.API_KEY === null || this.API_KEY === undefined) {
+        this.UPDATE_URL = apiURL;
+        if (this.API_KEY === null || this.API_KEY === undefined || this.API_KEY === '') {
             return;
         }
 
@@ -26,6 +27,11 @@ export class CodeStatsAPI {
     }
 
     public sendUpdate(pulse: Pulse): void {
+        // If we did not have API key, don't try to update
+        if (this.axios === null) {
+            return null;
+        }
+
         // tslint:disable-next-line:typedef
         const data = new ApiJSON(new Date());
 
