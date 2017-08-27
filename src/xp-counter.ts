@@ -63,7 +63,13 @@ export class XpCounter {
         }
 
         this.updateTimeout = setTimeout(() => {
-            this.api.sendUpdate(this.pulse);
+            const promise = this.api.sendUpdate(this.pulse);
+
+            if (promise !== null) {
+                promise.then(() => {
+                    this.updateStatusBar(show, `${this.pulse.getXP(document.languageId)}`);
+                });
+            }
         }, this.UPDATE_DELAY);
     }
 

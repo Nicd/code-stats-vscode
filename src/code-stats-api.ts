@@ -26,7 +26,7 @@ export class CodeStatsAPI {
 
     }
 
-    public sendUpdate(pulse: Pulse): void {
+    public sendUpdate(pulse: Pulse): axios.AxiosPromise {
         // If we did not have API key, don't try to update
         if (this.axios === null) {
             return null;
@@ -44,7 +44,7 @@ export class CodeStatsAPI {
         let json: string = JSON.stringify(data);
         console.log(`JSON: ${json}`);
 
-        this.axios.post(this.UPDATE_URL, json)
+        return this.axios.post(this.UPDATE_URL, json)
             .then( (response) => {
                 console.log(response);
             })
